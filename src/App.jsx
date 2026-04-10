@@ -213,7 +213,107 @@ function ChevronRight() {
   );
 }
 
+function ContactUsPage() {
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
+        <div className="flex items-center justify-between px-4 py-4 sm:px-6 lg:px-10">
+          <a href="/" className="inline-flex items-center">
+            <img
+              src="/sita-logo.jpeg"
+              alt="SITA logo"
+              className="h-12 w-auto rounded-lg sm:h-14"
+            />
+          </a>
+          <a
+            href="/"
+            className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+          >
+            Back To Home
+          </a>
+        </div>
+      </header>
+
+      <main className="px-4 py-8 sm:px-6 lg:px-10">
+        <section className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+          <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg sm:p-8">
+            <p className="inline-flex rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-sky-700">
+              Proposal Development
+            </p>
+            <h1 className="mt-4 text-3xl text-slate-900 sm:text-4xl">
+              Contact Us For Consultant Support
+            </h1>
+            <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-base">
+              Share your project details and our consultant team will connect
+              with you for proposal development, planning, and execution
+              support.
+            </p>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  Email
+                </p>
+                <p className="mt-1 text-sm font-semibold text-slate-800">
+                  contact@sita.org
+                </p>
+              </div>
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  Support Hours
+                </p>
+                <p className="mt-1 text-sm font-semibold text-slate-800">
+                  Monday to Saturday
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg sm:p-8">
+            <h2 className="text-2xl text-slate-900">Send Your Requirement</h2>
+            <form className="mt-5 space-y-3">
+              <input
+                type="text"
+                name="name"
+                placeholder="Your name"
+                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Your email"
+                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+              />
+              <input
+                type="text"
+                name="organization"
+                placeholder="Organization name"
+                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+              />
+              <textarea
+                name="message"
+                rows={5}
+                placeholder="Tell us about your proposal requirement"
+                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+              />
+              <button
+                type="button"
+                className="w-full rounded-xl bg-sky-700 px-4 py-3 text-sm font-semibold text-white transition hover:bg-sky-800"
+              >
+                Submit Inquiry
+              </button>
+            </form>
+          </article>
+        </section>
+      </main>
+    </div>
+  );
+}
+
 function App() {
+  const isContactUsPage =
+    typeof window !== "undefined" &&
+    window.location.pathname.toLowerCase() === "/contact-us";
+
   const [activeSlide, setActiveSlide] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
@@ -223,15 +323,19 @@ function App() {
   const [popupMessage, setPopupMessage] = useState("");
 
   useEffect(() => {
+    if (isContactUsPage) {
+      return undefined;
+    }
+
     const intervalId = window.setInterval(() => {
       setActiveSlide((current) => (current + 1) % heroSlides.length);
     }, 5000);
 
     return () => window.clearInterval(intervalId);
-  }, []);
+  }, [isContactUsPage]);
 
   useEffect(() => {
-    if (!showNewsletterPopup) {
+    if (isContactUsPage || !showNewsletterPopup) {
       return undefined;
     }
 
@@ -249,7 +353,18 @@ function App() {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleEscape);
     };
-  }, [showNewsletterPopup]);
+  }, [isContactUsPage, showNewsletterPopup]);
+
+  const getServiceSubItemHref = (serviceLabel, subItemLabel) => {
+    if (
+      serviceLabel === "Consultant" &&
+      subItemLabel === "Proposal Development"
+    ) {
+      return "/contact-us";
+    }
+
+    return "#services";
+  };
 
   const handleNewsletterSubmit = (event) => {
     event.preventDefault();
@@ -266,6 +381,10 @@ function App() {
       setPopupMessage("");
     }, 900);
   };
+
+  if (isContactUsPage) {
+    return <ContactUsPage />;
+  }
 
   return (
     <div className="flex min-h-screen w-full flex-col">
@@ -415,7 +534,10 @@ function App() {
                           {item.subItems.map((subItem) => (
                             <li key={subItem}>
                               <a
-                                href="#services"
+                                href={getServiceSubItemHref(
+                                  item.label,
+                                  subItem
+                                )}
                                 className="block rounded-md px-2 py-1 text-xs text-slate-600 transition hover:bg-orange-50 hover:text-orange-700"
                               >
                                 {subItem}
@@ -518,7 +640,10 @@ function App() {
                             {item.subItems.map((subItem) => (
                               <li key={subItem}>
                                 <a
-                                  href="#services"
+                                  href={getServiceSubItemHref(
+                                    item.label,
+                                    subItem
+                                  )}
                                   className="text-xs text-slate-600 hover:text-orange-700"
                                 >
                                   {subItem}
