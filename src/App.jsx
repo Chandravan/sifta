@@ -213,6 +213,15 @@ function ChevronRight() {
   );
 }
 
+function isContactUsRouteActive() {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  const currentPath = window.location.pathname.toLowerCase();
+  return currentPath === "/contact-us";
+}
+
 function ContactUsPage() {
   return (
     <div className="min-h-screen bg-slate-50">
@@ -310,9 +319,7 @@ function ContactUsPage() {
 }
 
 function App() {
-  const isContactUsPage =
-    typeof window !== "undefined" &&
-    window.location.pathname.toLowerCase() === "/contact-us";
+  const isContactUsPage = isContactUsRouteActive();
 
   const [activeSlide, setActiveSlide] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
