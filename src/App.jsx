@@ -222,6 +222,15 @@ function isContactUsRouteActive() {
   return currentPath === "/contact-us";
 }
 
+function isDonationRouteActive() {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  const currentPath = window.location.pathname.toLowerCase();
+  return currentPath === "/donation";
+}
+
 function ContactUsPage() {
   return (
     <div className="min-h-screen bg-slate-50">
@@ -318,8 +327,317 @@ function ContactUsPage() {
   );
 }
 
+function DonationPage() {
+  const [amount, setAmount] = useState("");
+  const [includeMessage, setIncludeMessage] = useState(false);
+  const [donorMessage, setDonorMessage] = useState("");
+  const [showPaymentPopup, setShowPaymentPopup] = useState(false);
+  const [paymentScreenshot, setPaymentScreenshot] = useState(null);
+  const [paymentStatus, setPaymentStatus] = useState("");
+
+  const amountValue = Number(amount);
+  const isAmountInvalid = !amount || Number.isNaN(amountValue) || amountValue <= 0;
+
+  const handleOpenPaymentPopup = () => {
+    if (isAmountInvalid) {
+      setPaymentStatus("Please enter a valid donation amount.");
+      return;
+    }
+
+    setPaymentStatus("");
+    setShowPaymentPopup(true);
+  };
+
+  const handleScreenshotChange = (event) => {
+    const selectedFile = event.target.files?.[0];
+    if (!selectedFile) {
+      setPaymentScreenshot(null);
+      setPaymentStatus("Please choose a screenshot first.");
+      return;
+    }
+
+    setPaymentScreenshot(selectedFile);
+    setPaymentStatus("File selected. Click upload screenshot to continue.");
+  };
+
+  const handleScreenshotUpload = () => {
+    if (!paymentScreenshot) {
+      setPaymentStatus("Please choose a screenshot first.");
+      return;
+    }
+
+    setPaymentStatus("Screenshot uploaded. Our team will verify your payment.");
+  };
+
+  useEffect(() => {
+    if (!showPaymentPopup) {
+      return undefined;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        setShowPaymentPopup(false);
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [showPaymentPopup]);
+
+  const qrCodeUrl = "/fake-qr.svg";
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      {showPaymentPopup ? (
+        <div className="fixed inset-0 z-[90] flex items-center justify-center px-4 py-6">
+          <button
+            type="button"
+            className="absolute inset-0 bg-slate-950/65 backdrop-blur-[2px]"
+            onClick={() => setShowPaymentPopup(false)}
+            aria-label="Close payment popup background"
+          />
+          <section
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="payment-popup-title"
+            className="relative w-full max-w-lg rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl sm:p-7"
+          >
+            <button
+              type="button"
+              className="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-xl text-slate-700 transition hover:bg-slate-100"
+              onClick={() => setShowPaymentPopup(false)}
+              aria-label="Close payment popup"
+            >
+              x
+            </button>
+            <p className="inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-700">
+              Step 2
+            </p>
+            <h2 id="payment-popup-title" className="mt-3 text-2xl text-slate-900">
+              Scan QR And Pay
+            </h2>
+            <p className="mt-2 text-sm text-slate-600">
+              Pay <span className="font-semibold text-slate-800">INR {amountValue}</span>{" "}
+              using UPI and upload payment screenshot.
+            </p>
+            <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <img
+                src={qrCodeUrl}
+                alt="Donation payment QR code"
+                className="mx-auto h-52 w-52 rounded-lg border border-slate-200 bg-white p-2 sm:h-64 sm:w-64"
+              />
+            </div>
+
+            <div className="mt-5 rounded-2xl border border-slate-200 bg-white p-4">
+              <label
+                htmlFor="payment-screenshot"
+                className="block text-sm font-semibold text-slate-800"
+              >
+                Upload payment screenshot
+              </label>
+              <input
+                id="payment-screenshot"
+                type="file"
+                accept="image/*"
+                onChange={handleScreenshotChange}
+                className="mt-2 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 file:mr-3 file:rounded-md file:border-0 file:bg-sky-100 file:px-3 file:py-2 file:text-xs file:font-semibold file:text-sky-700"
+              />
+              <button
+                type="button"
+                onClick={handleScreenshotUpload}
+                className="mt-3 inline-flex w-full items-center justify-center rounded-lg bg-sky-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-800"
+              >
+                Upload Screenshot
+              </button>
+              {paymentScreenshot ? (
+                <p className="mt-2 text-xs text-slate-500">
+                  Selected file: {paymentScreenshot.name}
+                </p>
+              ) : null}
+            </div>
+
+            {paymentStatus ? (
+              <p className="mt-4 rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
+                {paymentStatus}
+              </p>
+            ) : null}
+          </section>
+        </div>
+      ) : null}
+
+      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
+        <div className="flex items-center justify-between px-4 py-4 sm:px-6 lg:px-10">
+          <a href="/" className="inline-flex items-center">
+            <img
+              src="/sita-logo.jpeg"
+              alt="SITA logo"
+              className="h-12 w-auto rounded-lg sm:h-14"
+            />
+          </a>
+          <a
+            href="/"
+            className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+          >
+            Back To Home
+          </a>
+        </div>
+      </header>
+
+      <main className="px-4 py-8 sm:px-6 lg:px-10">
+        <section className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+          <article className="relative overflow-hidden rounded-[2rem] border border-orange-100 bg-gradient-to-br from-orange-50 via-white to-sky-50 p-6 shadow-lg shadow-orange-100/40 sm:p-8">
+            <div className="pointer-events-none absolute -left-16 top-10 h-36 w-36 rounded-full bg-orange-200/50 blur-2xl" />
+            <div className="pointer-events-none absolute -bottom-16 right-8 h-40 w-40 rounded-full bg-sky-200/50 blur-2xl" />
+            <div className="relative">
+              <p className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white/90 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-orange-700">
+                Support SITA
+              </p>
+              <h1 className="mt-4 max-w-xl text-3xl leading-tight text-slate-900 sm:text-4xl">
+                Your Donation Creates Real Impact
+              </h1>
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-600 sm:text-base">
+                Every contribution supports learning, livelihood, and community
+                development programs. Choose your amount, pay using QR, then
+                upload the screenshot for confirmation.
+              </p>
+
+              <div className="mt-6 flex flex-wrap gap-2.5">
+                <span className="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+                  UPI QR Payment
+                </span>
+                <span className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-700">
+                  Screenshot Verification
+                </span>
+              </div>
+
+              <ol className="mt-7 space-y-3">
+                <li className="flex items-start gap-3">
+                  <span className="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-orange-600 text-xs font-semibold text-white">
+                    1
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-slate-800">
+                      Enter Donation Amount
+                    </p>
+                    <p className="text-xs text-slate-600">
+                      Add amount and optional message from the form.
+                    </p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-sky-700 text-xs font-semibold text-white">
+                    2
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-slate-800">
+                      Scan Fake QR And Pay
+                    </p>
+                    <p className="text-xs text-slate-600">
+                      Click payment button to open QR popup.
+                    </p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-emerald-700 text-xs font-semibold text-white">
+                    3
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-slate-800">
+                      Upload Payment Screenshot
+                    </p>
+                    <p className="text-xs text-slate-600">
+                      Choose screenshot and submit using upload button.
+                    </p>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </article>
+
+          <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg sm:p-8">
+            <h2 className="text-2xl text-slate-900">Donate Now</h2>
+            <form
+              className="mt-5 space-y-4"
+              onSubmit={(event) => {
+                event.preventDefault();
+                handleOpenPaymentPopup();
+              }}
+            >
+              <label htmlFor="donation-amount" className="block space-y-2">
+                <span className="text-sm font-semibold text-slate-700">
+                  Donation Amount (INR)
+                </span>
+                <input
+                  id="donation-amount"
+                  type="number"
+                  min="1"
+                  value={amount}
+                  onChange={(event) => {
+                    setAmount(event.target.value);
+                    if (paymentStatus) {
+                      setPaymentStatus("");
+                    }
+                  }}
+                  placeholder="Enter amount"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+                />
+              </label>
+
+              <label className="inline-flex items-center gap-2 text-sm font-medium text-slate-700">
+                <input
+                  type="checkbox"
+                  checked={includeMessage}
+                  onChange={(event) => setIncludeMessage(event.target.checked)}
+                  className="h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+                />
+                Write a message
+              </label>
+
+              {includeMessage ? (
+                <label htmlFor="donor-message" className="block space-y-2">
+                  <span className="text-sm font-semibold text-slate-700">
+                    Message
+                  </span>
+                  <textarea
+                    id="donor-message"
+                    rows={4}
+                    value={donorMessage}
+                    onChange={(event) => setDonorMessage(event.target.value)}
+                    placeholder="Write your message"
+                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+                  />
+                </label>
+              ) : null}
+
+              <button
+                type="submit"
+                className="w-full rounded-xl bg-sky-700 px-4 py-3 text-sm font-semibold text-white transition hover:bg-sky-800"
+              >
+                Payment
+              </button>
+
+              {paymentStatus && !showPaymentPopup ? (
+                <p className="rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-700">
+                  {paymentStatus}
+                </p>
+              ) : null}
+            </form>
+          </article>
+        </section>
+      </main>
+    </div>
+  );
+}
+
 function App() {
   const isContactUsPage = isContactUsRouteActive();
+  const isDonationPage = isDonationRouteActive();
 
   const [activeSlide, setActiveSlide] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -330,7 +648,7 @@ function App() {
   const [popupMessage, setPopupMessage] = useState("");
 
   useEffect(() => {
-    if (isContactUsPage) {
+    if (isContactUsPage || isDonationPage) {
       return undefined;
     }
 
@@ -339,10 +657,10 @@ function App() {
     }, 5000);
 
     return () => window.clearInterval(intervalId);
-  }, [isContactUsPage]);
+  }, [isContactUsPage, isDonationPage]);
 
   useEffect(() => {
-    if (isContactUsPage || !showNewsletterPopup) {
+    if (isContactUsPage || isDonationPage || !showNewsletterPopup) {
       return undefined;
     }
 
@@ -360,7 +678,7 @@ function App() {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleEscape);
     };
-  }, [isContactUsPage, showNewsletterPopup]);
+  }, [isContactUsPage, isDonationPage, showNewsletterPopup]);
 
   const getServiceSubItemHref = (serviceLabel, subItemLabel) => {
     if (
@@ -371,6 +689,14 @@ function App() {
     }
 
     return "#services";
+  };
+
+  const getAboutItemHref = (itemLabel) => {
+    if (itemLabel === "Donate Us") {
+      return "/donation";
+    }
+
+    return "#about";
   };
 
   const handleNewsletterSubmit = (event) => {
@@ -391,6 +717,10 @@ function App() {
 
   if (isContactUsPage) {
     return <ContactUsPage />;
+  }
+
+  if (isDonationPage) {
+    return <DonationPage />;
   }
 
   return (
@@ -502,7 +832,7 @@ function App() {
                   {navAboutItems.map((item) => (
                     <li key={item}>
                       <a
-                        href="#about"
+                        href={getAboutItemHref(item)}
                         className="block rounded-lg px-3 py-2 text-sm text-slate-700 transition hover:bg-orange-50 hover:text-orange-700"
                       >
                         {item}
@@ -566,7 +896,7 @@ function App() {
               Programs
             </a>
             <a
-              href="#donate"
+              href="/donation"
               className="rounded-xl bg-orange-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-orange-700"
             >
               Donate
@@ -610,7 +940,7 @@ function App() {
                     {navAboutItems.map((item) => (
                       <li key={item}>
                         <a
-                          href="#about"
+                          href={getAboutItemHref(item)}
                           className="block rounded px-2 py-1 text-sm text-slate-600 hover:bg-sky-50 hover:text-sky-700"
                         >
                           {item}
@@ -664,6 +994,12 @@ function App() {
                   </div>
                 ) : null}
               </div>
+              <a
+                href="/donation"
+                className="block rounded-lg bg-orange-600 px-3 py-2 text-center text-sm font-semibold text-white"
+              >
+                Donate
+              </a>
               <a
                 href="#contact"
                 className="block rounded-lg bg-sky-700 px-3 py-2 text-center text-sm font-semibold text-white"
@@ -724,7 +1060,7 @@ function App() {
                   </a>
                   <a
                     id="donate"
-                    href="#contact"
+                    href="/donation"
                     className="rounded-xl bg-orange-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-700"
                   >
                     Donate Us
