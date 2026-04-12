@@ -231,6 +231,15 @@ function isDonationRouteActive() {
   return currentPath === "/donation";
 }
 
+function isOurTeamRouteActive() {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  const currentPath = window.location.pathname.toLowerCase();
+  return currentPath === "/our-team";
+}
+
 function ContactUsPage() {
   return (
     <div className="min-h-screen bg-slate-50">
@@ -635,9 +644,246 @@ function DonationPage() {
   );
 }
 
+function OurTeamPage() {
+  const boardMembers = [
+    {
+      initials: "RK",
+      name: "Rajesh Kumar",
+      role: "Board Chair",
+      description: "Guides governance, partnerships, and long-term strategy.",
+    },
+    {
+      initials: "PM",
+      name: "Priya Mishra",
+      role: "Finance Advisor",
+      description: "Supports transparent budgeting and accountability systems.",
+    },
+    {
+      initials: "AS",
+      name: "Amit Sinha",
+      role: "Education Lead",
+      description: "Strengthens ECCE, FLN, and quality learning interventions.",
+    },
+    {
+      initials: "NS",
+      name: "Neha Sharma",
+      role: "Livelihood Mentor",
+      description: "Supports skill-building pathways for women and youth.",
+    },
+  ];
+
+  const members = [
+    { initials: "SK", name: "Sanjay Kumar", role: "Program Manager" },
+    { initials: "PG", name: "Pooja Gupta", role: "Community Coordinator" },
+    { initials: "VD", name: "Vikas Das", role: "Field Mobilizer" },
+    { initials: "RN", name: "Ritu Nand", role: "Training Facilitator" },
+    { initials: "MK", name: "Manoj Kumar", role: "Monitoring Associate" },
+    { initials: "AD", name: "Anita Devi", role: "Women Group Mentor" },
+    { initials: "DK", name: "Deepak Kumar", role: "Operations Associate" },
+    { initials: "SS", name: "Soni Sharma", role: "Digital Literacy Trainer" },
+  ];
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
+        <div className="flex items-center justify-between px-4 py-4 sm:px-6 lg:px-10">
+          <a href="/" className="inline-flex items-center">
+            <img
+              src="/sita-logo.jpeg"
+              alt="SITA logo"
+              className="h-12 w-auto rounded-lg sm:h-14"
+            />
+          </a>
+          <a
+            href="/"
+            className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+          >
+            Back To Home
+          </a>
+        </div>
+      </header>
+
+      <main className="px-4 py-8 sm:px-6 lg:px-10">
+        <section className="relative mx-auto max-w-6xl overflow-hidden rounded-[2.25rem] border border-slate-800 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 p-7 text-white shadow-2xl shadow-slate-900/35 sm:p-10">
+          <div className="pointer-events-none absolute -left-16 top-8 h-52 w-52 rounded-full bg-sky-400/20 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-20 right-0 h-64 w-64 rounded-full bg-orange-400/20 blur-3xl" />
+          <div className="relative">
+            <p className="inline-flex rounded-full border border-white/30 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-100">
+              Leadership & Governance
+            </p>
+            <h1 className="mt-4 max-w-3xl text-3xl leading-tight sm:text-5xl">
+              Meet The People Building SITA
+            </h1>
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-200 sm:text-base">
+              We are educators, community professionals, and social development
+              leaders working together to make every program practical,
+              inclusive, and measurable on the ground.
+            </p>
+
+            <div className="mt-7 grid gap-3 sm:grid-cols-3">
+              <div className="rounded-2xl border border-white/15 bg-white/5 p-4">
+                <p className="text-2xl font-semibold text-white">14+</p>
+                <p className="mt-1 text-xs uppercase tracking-wide text-slate-300">
+                  Years Of Leadership
+                </p>
+              </div>
+              <div className="rounded-2xl border border-white/15 bg-white/5 p-4">
+                <p className="text-2xl font-semibold text-white">4</p>
+                <p className="mt-1 text-xs uppercase tracking-wide text-slate-300">
+                  Board Members
+                </p>
+              </div>
+              <div className="rounded-2xl border border-white/15 bg-white/5 p-4">
+                <p className="text-2xl font-semibold text-white">8</p>
+                <p className="mt-1 text-xs uppercase tracking-wide text-slate-300">
+                  Core Team Members
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto mt-7 grid max-w-6xl gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+          <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-xl shadow-slate-200/70">
+            <div className="grid md:grid-cols-[0.9fr_1.1fr]">
+              <div className="relative h-72 md:h-full">
+                <img
+                  src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1200&q=80"
+                  alt="Chief Executive Officer portrait"
+                  className="h-full w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/10 to-transparent" />
+                <p className="absolute bottom-5 left-5 rounded-full border border-white/30 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white backdrop-blur-sm">
+                  Chief Executive Officer
+                </p>
+              </div>
+
+              <div className="p-6 sm:p-7">
+                <p className="inline-flex rounded-full bg-orange-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-orange-700">
+                  CEO
+                </p>
+                <h2 className="mt-3 text-2xl text-slate-900">Dr. Kavita Sinha</h2>
+                <div className="mt-4 rounded-2xl border border-orange-100 bg-orange-50/70 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-orange-700">
+                    Brief Description
+                  </p>
+                  <p className="mt-1 text-sm font-medium leading-6 text-slate-700">
+                    Community-first leader focused on education, livelihoods,
+                    and women-led development.
+                  </p>
+                </div>
+                <p className="mt-4 text-sm leading-7 text-slate-600">
+                  Bio: With 14+ years in social sector leadership, Dr. Kavita
+                  has led multi-district programs in foundational learning,
+                  nutrition, and skill development. She works closely with
+                  grassroots teams to design programs that are measurable,
+                  sustainable, and locally owned.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <article className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/70 sm:p-7">
+            <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-emerald-200/50 blur-2xl" />
+            <div className="relative">
+              <img
+                src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1000&q=80"
+                alt="Secretary portrait"
+                className="h-56 w-full rounded-2xl object-cover sm:h-64"
+              />
+              <div className="mt-5">
+                <p className="inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-700">
+                  Secretary
+                </p>
+                <h2 className="mt-3 text-2xl text-slate-900">Anupam Verma</h2>
+                <p className="mt-3 text-sm leading-7 text-slate-600">
+                  Oversees coordination, compliance, and program execution
+                  across field teams. Ensures smooth communication between
+                  community units, board, and implementation partners.
+                </p>
+                <ul className="mt-4 space-y-2 text-sm text-slate-600">
+                  <li className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                    Program Coordination
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-sky-500" />
+                    Compliance & Reporting
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-orange-500" />
+                    Partner Communication
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section className="mx-auto mt-7 max-w-6xl rounded-[2rem] border border-slate-200 bg-white/95 p-6 shadow-xl shadow-slate-200/70 sm:p-8">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <h2 className="text-2xl text-slate-900 sm:text-3xl">Board Members</h2>
+            <p className="text-sm text-slate-500">
+              Governance and strategic direction
+            </p>
+          </div>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {boardMembers.map((member) => (
+              <article
+                key={member.name}
+                className="group rounded-2xl border border-slate-200 bg-slate-50/75 p-5 transition duration-300 hover:-translate-y-1 hover:border-slate-300 hover:bg-white hover:shadow-lg"
+              >
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white transition group-hover:scale-105">
+                  {member.initials}
+                </span>
+                <h3 className="mt-3 text-lg text-slate-900">{member.name}</h3>
+                <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-sky-700">
+                  {member.role}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  {member.description}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="mx-auto mt-7 max-w-6xl rounded-[2rem] border border-slate-200 bg-white/95 p-6 shadow-xl shadow-slate-200/70 sm:p-8">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <h2 className="text-2xl text-slate-900 sm:text-3xl">Members</h2>
+            <p className="text-sm text-slate-500">
+              Core implementation and field support team
+            </p>
+          </div>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {members.map((member, index) => (
+              <article
+                key={member.name}
+                className="rounded-2xl border border-slate-200 bg-white p-4 transition duration-300 hover:border-sky-200 hover:shadow-md"
+              >
+                <div className="flex items-start justify-between">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-sky-100 text-sm font-semibold text-sky-700">
+                    {member.initials}
+                  </span>
+                  <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-semibold text-slate-500">
+                    #{index + 1}
+                  </span>
+                </div>
+                <h3 className="mt-3 text-base text-slate-900">{member.name}</h3>
+                <p className="mt-1 text-sm text-slate-600">{member.role}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
+
 function App() {
   const isContactUsPage = isContactUsRouteActive();
   const isDonationPage = isDonationRouteActive();
+  const isOurTeamPage = isOurTeamRouteActive();
 
   const [activeSlide, setActiveSlide] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -648,7 +894,7 @@ function App() {
   const [popupMessage, setPopupMessage] = useState("");
 
   useEffect(() => {
-    if (isContactUsPage || isDonationPage) {
+    if (isContactUsPage || isDonationPage || isOurTeamPage) {
       return undefined;
     }
 
@@ -657,10 +903,10 @@ function App() {
     }, 5000);
 
     return () => window.clearInterval(intervalId);
-  }, [isContactUsPage, isDonationPage]);
+  }, [isContactUsPage, isDonationPage, isOurTeamPage]);
 
   useEffect(() => {
-    if (isContactUsPage || isDonationPage || !showNewsletterPopup) {
+    if (isContactUsPage || isDonationPage || isOurTeamPage || !showNewsletterPopup) {
       return undefined;
     }
 
@@ -678,7 +924,7 @@ function App() {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleEscape);
     };
-  }, [isContactUsPage, isDonationPage, showNewsletterPopup]);
+  }, [isContactUsPage, isDonationPage, isOurTeamPage, showNewsletterPopup]);
 
   const getServiceSubItemHref = (serviceLabel, subItemLabel) => {
     if (
@@ -692,6 +938,10 @@ function App() {
   };
 
   const getAboutItemHref = (itemLabel) => {
+    if (itemLabel === "Our Team") {
+      return "/our-team";
+    }
+
     if (itemLabel === "Donate Us") {
       return "/donation";
     }
@@ -717,6 +967,10 @@ function App() {
 
   if (isContactUsPage) {
     return <ContactUsPage />;
+  }
+
+  if (isOurTeamPage) {
+    return <OurTeamPage />;
   }
 
   if (isDonationPage) {
