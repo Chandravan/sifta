@@ -249,7 +249,7 @@ function ContactUsPage() {
             <img
               src="/sita-logo.jpeg"
               alt="SITA logo"
-              className="h-12 w-auto rounded-lg sm:h-14"
+              className="h-14 w-auto origin-left scale-x-125 rounded-lg sm:h-16"
             />
           </a>
           <a
@@ -337,17 +337,39 @@ function ContactUsPage() {
 }
 
 function DonationPage() {
+  const [donorName, setDonorName] = useState("");
+  const [donorMobile, setDonorMobile] = useState("");
+  const [donorAddress, setDonorAddress] = useState("");
   const [amount, setAmount] = useState("");
-  const [includeMessage, setIncludeMessage] = useState(false);
-  const [donorMessage, setDonorMessage] = useState("");
+  const [includePurpose, setIncludePurpose] = useState(false);
+  const [donorPurpose, setDonorPurpose] = useState("");
   const [showPaymentPopup, setShowPaymentPopup] = useState(false);
-  const [paymentScreenshot, setPaymentScreenshot] = useState(null);
   const [paymentStatus, setPaymentStatus] = useState("");
 
   const amountValue = Number(amount);
   const isAmountInvalid = !amount || Number.isNaN(amountValue) || amountValue <= 0;
 
   const handleOpenPaymentPopup = () => {
+    const sanitizedName = donorName.trim();
+    const sanitizedMobile = donorMobile.trim();
+    const sanitizedAddress = donorAddress.trim();
+    const numericMobile = sanitizedMobile.replace(/\D/g, "");
+
+    if (!sanitizedName) {
+      setPaymentStatus("Please enter your name.");
+      return;
+    }
+
+    if (numericMobile.length < 10) {
+      setPaymentStatus("Please enter a valid mobile number.");
+      return;
+    }
+
+    if (!sanitizedAddress) {
+      setPaymentStatus("Please enter your address.");
+      return;
+    }
+
     if (isAmountInvalid) {
       setPaymentStatus("Please enter a valid donation amount.");
       return;
@@ -355,27 +377,6 @@ function DonationPage() {
 
     setPaymentStatus("");
     setShowPaymentPopup(true);
-  };
-
-  const handleScreenshotChange = (event) => {
-    const selectedFile = event.target.files?.[0];
-    if (!selectedFile) {
-      setPaymentScreenshot(null);
-      setPaymentStatus("Please choose a screenshot first.");
-      return;
-    }
-
-    setPaymentScreenshot(selectedFile);
-    setPaymentStatus("File selected. Click upload screenshot to continue.");
-  };
-
-  const handleScreenshotUpload = () => {
-    if (!paymentScreenshot) {
-      setPaymentStatus("Please choose a screenshot first.");
-      return;
-    }
-
-    setPaymentStatus("Screenshot uploaded. Our team will verify your payment.");
   };
 
   useEffect(() => {
@@ -433,7 +434,7 @@ function DonationPage() {
             </h2>
             <p className="mt-2 text-sm text-slate-600">
               Pay <span className="font-semibold text-slate-800">INR {amountValue}</span>{" "}
-              using UPI and upload payment screenshot.
+              using UPI or use bank transfer details below.
             </p>
             <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <img
@@ -444,31 +445,26 @@ function DonationPage() {
             </div>
 
             <div className="mt-5 rounded-2xl border border-slate-200 bg-white p-4">
-              <label
-                htmlFor="payment-screenshot"
-                className="block text-sm font-semibold text-slate-800"
-              >
-                Upload payment screenshot
-              </label>
-              <input
-                id="payment-screenshot"
-                type="file"
-                accept="image/*"
-                onChange={handleScreenshotChange}
-                className="mt-2 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 file:mr-3 file:rounded-md file:border-0 file:bg-sky-100 file:px-3 file:py-2 file:text-xs file:font-semibold file:text-sky-700"
-              />
-              <button
-                type="button"
-                onClick={handleScreenshotUpload}
-                className="mt-3 inline-flex w-full items-center justify-center rounded-lg bg-sky-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-800"
-              >
-                Upload Screenshot
-              </button>
-              {paymentScreenshot ? (
-                <p className="mt-2 text-xs text-slate-500">
-                  Selected file: {paymentScreenshot.name}
+              <p className="text-sm font-semibold text-slate-800">
+                Bank Transfer Details
+              </p>
+              <div className="mt-3 space-y-2 text-sm text-slate-700">
+                <p>
+                  Account Name: <span className="font-semibold">SITA Foundation</span>
                 </p>
-              ) : null}
+                <p>
+                  Account Number: <span className="font-semibold">123456789012</span>
+                </p>
+                <p>
+                  IFSC Code: <span className="font-semibold">SBIN0001234</span>
+                </p>
+                <p>
+                  Bank Name: <span className="font-semibold">State Bank of India</span>
+                </p>
+                <p>
+                  Branch: <span className="font-semibold">Patna Main Branch</span>
+                </p>
+              </div>
             </div>
 
             {paymentStatus ? (
@@ -486,7 +482,7 @@ function DonationPage() {
             <img
               src="/sita-logo.jpeg"
               alt="SITA logo"
-              className="h-12 w-auto rounded-lg sm:h-14"
+              className="h-14 w-auto origin-left scale-x-125 rounded-lg sm:h-16"
             />
           </a>
           <a
@@ -512,8 +508,8 @@ function DonationPage() {
               </h1>
               <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-600 sm:text-base">
                 Every contribution supports learning, livelihood, and community
-                development programs. Choose your amount, pay using QR, then
-                upload the screenshot for confirmation.
+                development programs. Choose your amount, pay using QR, or
+                transfer directly using bank details.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-2.5">
@@ -521,7 +517,7 @@ function DonationPage() {
                   UPI QR Payment
                 </span>
                 <span className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-700">
-                  Screenshot Verification
+                  Bank Transfer Available
                 </span>
               </div>
 
@@ -532,10 +528,10 @@ function DonationPage() {
                   </span>
                   <div>
                     <p className="text-sm font-semibold text-slate-800">
-                      Enter Donation Amount
+                      Enter Donor Details
                     </p>
                     <p className="text-xs text-slate-600">
-                      Add amount and optional message from the form.
+                      Add name, mobile, address, amount and optional purpose.
                     </p>
                   </div>
                 </li>
@@ -558,10 +554,10 @@ function DonationPage() {
                   </span>
                   <div>
                     <p className="text-sm font-semibold text-slate-800">
-                      Upload Payment Screenshot
+                      Use Bank Transfer Option
                     </p>
                     <p className="text-xs text-slate-600">
-                      Choose screenshot and submit using upload button.
+                      Check account number and IFSC in payment popup.
                     </p>
                   </div>
                 </li>
@@ -578,6 +574,57 @@ function DonationPage() {
                 handleOpenPaymentPopup();
               }}
             >
+              <label htmlFor="donor-name" className="block space-y-2">
+                <span className="text-sm font-semibold text-slate-700">Name</span>
+                <input
+                  id="donor-name"
+                  type="text"
+                  value={donorName}
+                  onChange={(event) => {
+                    setDonorName(event.target.value);
+                    if (paymentStatus) {
+                      setPaymentStatus("");
+                    }
+                  }}
+                  placeholder="Enter your name"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+                />
+              </label>
+
+              <label htmlFor="donor-mobile" className="block space-y-2">
+                <span className="text-sm font-semibold text-slate-700">Mobile</span>
+                <input
+                  id="donor-mobile"
+                  type="tel"
+                  value={donorMobile}
+                  onChange={(event) => {
+                    setDonorMobile(event.target.value);
+                    if (paymentStatus) {
+                      setPaymentStatus("");
+                    }
+                  }}
+                  placeholder="Enter mobile number"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+                />
+              </label>
+
+              <label htmlFor="donor-address" className="block space-y-2">
+                <span className="text-sm font-semibold text-slate-700">Address</span>
+                <textarea
+                  id="donor-address"
+                  rows={3}
+                  value={donorAddress}
+                  onChange={(event) => {
+                    setDonorAddress(event.target.value);
+                    if (paymentStatus) {
+                      setPaymentStatus("");
+                    }
+                  }}
+                  placeholder="Enter your address"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+                />
+              </label>
+
               <label htmlFor="donation-amount" className="block space-y-2">
                 <span className="text-sm font-semibold text-slate-700">
                   Donation Amount (INR)
@@ -601,24 +648,24 @@ function DonationPage() {
               <label className="inline-flex items-center gap-2 text-sm font-medium text-slate-700">
                 <input
                   type="checkbox"
-                  checked={includeMessage}
-                  onChange={(event) => setIncludeMessage(event.target.checked)}
+                  checked={includePurpose}
+                  onChange={(event) => setIncludePurpose(event.target.checked)}
                   className="h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
                 />
-                Write a message
+                Add purpose
               </label>
 
-              {includeMessage ? (
-                <label htmlFor="donor-message" className="block space-y-2">
+              {includePurpose ? (
+                <label htmlFor="donor-purpose" className="block space-y-2">
                   <span className="text-sm font-semibold text-slate-700">
-                    Message
+                    Purpose
                   </span>
                   <textarea
-                    id="donor-message"
+                    id="donor-purpose"
                     rows={4}
-                    value={donorMessage}
-                    onChange={(event) => setDonorMessage(event.target.value)}
-                    placeholder="Write your message"
+                    value={donorPurpose}
+                    onChange={(event) => setDonorPurpose(event.target.value)}
+                    placeholder="Write donation purpose"
                     className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
                   />
                 </label>
@@ -691,7 +738,7 @@ function OurTeamPage() {
             <img
               src="/sita-logo.jpeg"
               alt="SITA logo"
-              className="h-12 w-auto rounded-lg sm:h-14"
+              className="h-14 w-auto origin-left scale-x-125 rounded-lg sm:h-16"
             />
           </a>
           <a
@@ -889,9 +936,40 @@ function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [desktopAboutOpen, setDesktopAboutOpen] = useState(false);
+  const [desktopServicesOpen, setDesktopServicesOpen] = useState(false);
   const [showNewsletterPopup, setShowNewsletterPopup] = useState(true);
+  const [subscriberName, setSubscriberName] = useState("");
   const [subscriberEmail, setSubscriberEmail] = useState("");
+  const [subscriberOrganization, setSubscriberOrganization] = useState("");
+  const [subscriberContact, setSubscriberContact] = useState("");
   const [popupMessage, setPopupMessage] = useState("");
+  const [visitorCount, setVisitorCount] = useState(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const countStorageKey = "sita-visitor-count";
+    const sessionStorageKey = "sita-visitor-counted";
+
+    const storedCountRaw = window.localStorage.getItem(countStorageKey);
+    const parsedStoredCount = Number.parseInt(storedCountRaw ?? "0", 10);
+    let nextCount = Number.isNaN(parsedStoredCount) || parsedStoredCount < 0
+      ? 0
+      : parsedStoredCount;
+    const isAlreadyCountedInSession =
+      window.sessionStorage.getItem(sessionStorageKey) === "true";
+
+    if (!isAlreadyCountedInSession) {
+      nextCount += 1;
+      window.localStorage.setItem(countStorageKey, String(nextCount));
+      window.sessionStorage.setItem(sessionStorageKey, "true");
+    }
+
+    setVisitorCount(nextCount);
+  }, []);
 
   useEffect(() => {
     if (isContactUsPage || isDonationPage || isOurTeamPage) {
@@ -951,16 +1029,30 @@ function App() {
 
   const handleNewsletterSubmit = (event) => {
     event.preventDefault();
+    const sanitizedName = subscriberName.trim();
     const sanitizedEmail = subscriberEmail.trim();
+    const sanitizedContact = subscriberContact.trim();
 
+    if (!sanitizedName) {
+      setPopupMessage("Please enter your name.");
+      return;
+    }
     if (!sanitizedEmail) {
       setPopupMessage("Please enter your email address.");
+      return;
+    }
+    if (!sanitizedContact) {
+      setPopupMessage("Please enter your contact number.");
       return;
     }
 
     setPopupMessage("Thanks for subscribing. We will reach out soon.");
     window.setTimeout(() => {
       setShowNewsletterPopup(false);
+      setSubscriberName("");
+      setSubscriberEmail("");
+      setSubscriberOrganization("");
+      setSubscriberContact("");
       setPopupMessage("");
     }, 900);
   };
@@ -1006,7 +1098,7 @@ function App() {
               <img
                 src="/sita-logo.jpeg"
                 alt="SITA logo"
-                className="h-20 w-auto rounded-lg border border-slate-200 bg-white p-1"
+                className="h-24 w-auto scale-x-125 rounded-lg border border-slate-200 bg-white p-1"
               />
               <p className="mt-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
                 Stay Connected
@@ -1028,6 +1120,21 @@ function App() {
               className="mx-auto mt-6 w-full max-w-md space-y-3"
             >
               <input
+                type="text"
+                name="name"
+                autoComplete="name"
+                required
+                value={subscriberName}
+                onChange={(event) => {
+                  setSubscriberName(event.target.value);
+                  if (popupMessage) {
+                    setPopupMessage("");
+                  }
+                }}
+                placeholder="Enter your name"
+                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+              />
+              <input
                 type="email"
                 name="email"
                 autoComplete="email"
@@ -1040,6 +1147,35 @@ function App() {
                   }
                 }}
                 placeholder="Enter your email address"
+                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+              />
+              <input
+                type="text"
+                name="organization"
+                autoComplete="organization"
+                value={subscriberOrganization}
+                onChange={(event) => {
+                  setSubscriberOrganization(event.target.value);
+                  if (popupMessage) {
+                    setPopupMessage("");
+                  }
+                }}
+                placeholder="Organization (optional)"
+                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+              />
+              <input
+                type="tel"
+                name="contact"
+                autoComplete="tel"
+                required
+                value={subscriberContact}
+                onChange={(event) => {
+                  setSubscriberContact(event.target.value);
+                  if (popupMessage) {
+                    setPopupMessage("");
+                  }
+                }}
+                placeholder="Enter contact number"
                 className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
               />
               <button
@@ -1064,7 +1200,7 @@ function App() {
             <img
               src="/sita-logo.jpeg"
               alt="Social Integration for Together Action logo"
-              className="h-14 w-auto rounded-xl sm:h-16"
+              className="h-16 w-auto origin-left scale-x-125 rounded-xl sm:h-20"
             />
           </a>
 
@@ -1076,12 +1212,27 @@ function App() {
               Home
             </a>
 
-            <div className="group relative">
-              <button className="inline-flex items-center gap-1 rounded-xl px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-sky-50 hover:text-sky-700">
+            <div
+              className="relative"
+              onMouseEnter={() => setDesktopAboutOpen(true)}
+              onMouseLeave={() => setDesktopAboutOpen(false)}
+            >
+              <button
+                type="button"
+                aria-haspopup="true"
+                aria-expanded={desktopAboutOpen}
+                className="inline-flex items-center gap-1 rounded-xl px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-sky-50 hover:text-sky-700"
+              >
                 About Us
-                <Arrow />
+                <Arrow open={desktopAboutOpen} />
               </button>
-              <div className="pointer-events-none absolute left-0 top-full z-30 mt-2 w-72 translate-y-2 rounded-2xl border border-slate-200 bg-white/95 p-3 opacity-0 shadow-xl transition-all duration-200 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:opacity-100">
+              <div
+                className={`absolute left-0 top-full z-30 w-72 rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-xl transition-all duration-200 ${
+                  desktopAboutOpen
+                    ? "pointer-events-auto translate-y-0 opacity-100"
+                    : "pointer-events-none translate-y-2 opacity-0"
+                }`}
+              >
                 <ul className="space-y-1">
                   {navAboutItems.map((item) => (
                     <li key={item}>
@@ -1097,12 +1248,27 @@ function App() {
               </div>
             </div>
 
-            <div className="group relative">
-              <button className="inline-flex items-center gap-1 rounded-xl px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-sky-50 hover:text-sky-700">
+            <div
+              className="relative"
+              onMouseEnter={() => setDesktopServicesOpen(true)}
+              onMouseLeave={() => setDesktopServicesOpen(false)}
+            >
+              <button
+                type="button"
+                aria-haspopup="true"
+                aria-expanded={desktopServicesOpen}
+                className="inline-flex items-center gap-1 rounded-xl px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-sky-50 hover:text-sky-700"
+              >
                 Services
-                <Arrow />
+                <Arrow open={desktopServicesOpen} />
               </button>
-              <div className="pointer-events-none absolute right-0 top-full z-30 mt-2 max-h-[70vh] w-[26rem] translate-y-2 overflow-y-auto rounded-2xl border border-slate-200 bg-white/95 p-3 opacity-0 shadow-xl transition-all duration-200 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:opacity-100">
+              <div
+                className={`absolute right-0 top-full z-30 max-h-[70vh] w-[26rem] overflow-y-auto rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-xl transition-all duration-200 ${
+                  desktopServicesOpen
+                    ? "pointer-events-auto translate-y-0 opacity-100"
+                    : "pointer-events-none translate-y-2 opacity-0"
+                }`}
+              >
                 <div className="space-y-2">
                   {navServiceItems.map((item) => (
                     <div
@@ -1121,7 +1287,7 @@ function App() {
                         ) : null}
                       </a>
                       {item.subItems ? (
-                        <ul className="max-h-0 overflow-hidden opacity-0 transition-all duration-300 group-hover/item:mt-2 group-hover/item:max-h-48 group-hover/item:border-t group-hover/item:border-slate-200 group-hover/item:pt-2 group-hover/item:opacity-100 group-focus-within/item:mt-2 group-focus-within/item:max-h-48 group-focus-within/item:border-t group-focus-within/item:border-slate-200 group-focus-within/item:pt-2 group-focus-within/item:opacity-100">
+                        <ul className="max-h-0 overflow-hidden opacity-0 transition-all duration-300 group-hover/item:mt-2 group-hover/item:max-h-48 group-hover/item:border-t group-hover/item:border-slate-200 group-hover/item:pt-2 group-hover/item:opacity-100">
                           {item.subItems.map((subItem) => (
                             <li key={subItem}>
                               <a
@@ -1529,14 +1695,26 @@ function App() {
 
           <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-4 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between">
             <p>(c) 2026 SITA. All rights reserved.</p>
+            <p className="text-xs font-medium text-slate-300">
+              Visitors:{" "}
+              {visitorCount !== null ? visitorCount.toLocaleString("en-IN") : "--"}
+            </p>
             <div className="flex flex-wrap items-center gap-2">
               <p className="text-xs font-medium text-slate-300">Follow us:</p>
               <a
                 href="https://www.facebook.com/"
                 target="_blank"
                 rel="noreferrer"
-                className="text-xs text-slate-300 transition hover:text-blue-300"
+                className="inline-flex items-center gap-1.5 text-xs text-slate-300 transition hover:text-blue-300"
               >
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-3.5 w-3.5 text-[#1877F2]"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M14 8h3V4h-3c-3.3 0-5 2-5 5v3H6v4h3v8h4v-8h3l1-4h-4V9c0-.8.2-1 1-1z" />
+                </svg>
                 Facebook
               </a>
               <span className="text-slate-500">|</span>
@@ -1544,8 +1722,16 @@ function App() {
                 href="https://www.youtube.com/"
                 target="_blank"
                 rel="noreferrer"
-                className="text-xs text-slate-300 transition hover:text-red-300"
+                className="inline-flex items-center gap-1.5 text-xs text-slate-300 transition hover:text-red-300"
               >
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-3.5 w-3.5 text-[#FF0000]"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M21.8 8.1a3 3 0 0 0-2.1-2.1C17.8 5.5 12 5.5 12 5.5s-5.8 0-7.7.5a3 3 0 0 0-2.1 2.1A31 31 0 0 0 1.7 12c0 1.3.1 2.7.5 3.9a3 3 0 0 0 2.1 2.1c1.9.5 7.7.5 7.7.5s5.8 0 7.7-.5a3 3 0 0 0 2.1-2.1c.4-1.3.5-2.6.5-3.9s-.1-2.7-.5-3.9zM10 15.5v-7l6 3.5-6 3.5z" />
+                </svg>
                 YouTube
               </a>
               <span className="text-slate-500">|</span>
@@ -1553,8 +1739,16 @@ function App() {
                 href="https://www.linkedin.com/"
                 target="_blank"
                 rel="noreferrer"
-                className="text-xs text-slate-300 transition hover:text-sky-300"
+                className="inline-flex items-center gap-1.5 text-xs text-slate-300 transition hover:text-sky-300"
               >
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-3.5 w-3.5 text-[#0A66C2]"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M6.5 8.5A2.5 2.5 0 1 1 6.5 3a2.5 2.5 0 0 1 0 5.5zM4.5 9.8h4v10.7h-4V9.8zM10.8 9.8h3.8v1.6h.1c.5-.9 1.8-1.9 3.8-1.9 4.1 0 4.8 2.5 4.8 5.8v5.2h-4v-4.6c0-1.1 0-2.6-1.7-2.6s-1.9 1.3-1.9 2.5v4.7h-4V9.8z" />
+                </svg>
                 LinkedIn
               </a>
             </div>
