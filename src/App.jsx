@@ -20,8 +20,7 @@ const navServiceItems = [
     ],
   },
   { label: "Human Resource" },
-  { label: "ECCE, FLN and Nutrition" },
-  { label: "TLM" },
+  { label: "ECCE and FLN" },
   {
     label: "Life Skill Education",
     subItems: [
@@ -87,20 +86,12 @@ const serviceShowcase = [
     chips: ["Hiring", "Training", "Performance"],
   },
   {
-    title: "ECCE, FLN and Nutrition",
+    title: "ECCE and FLN",
     description:
-      "Integrated support for early childhood care, foundational literacy and numeracy, and nutrition awareness.",
+      "Integrated support for early childhood care and foundational literacy and numeracy.",
     image:
       "https://images.unsplash.com/photo-1476234251651-f353703a034d?auto=format&fit=crop&w=900&q=80",
-    chips: ["ECCE", "FLN", "Nutrition"],
-  },
-  {
-    title: "TLM",
-    description:
-      "Designing and distributing teaching-learning materials that help classrooms become engaging and inclusive.",
-    image:
-      "https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=900&q=80",
-    chips: ["Activity Kits", "Classroom Aids", "Assessment Tools"],
+    chips: ["ECCE", "FLN"],
   },
   {
     title: "Life Skill Education",
@@ -2004,7 +1995,7 @@ function App() {
               <ul className="mt-3 space-y-2 text-sm text-slate-300">
                 <li>Consultant</li>
                 <li>Human Resource</li>
-                <li>ECCE, FLN and Nutrition</li>
+                <li>ECCE and FLN</li>
               </ul>
             </div>
 
