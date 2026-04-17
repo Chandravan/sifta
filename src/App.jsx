@@ -33,6 +33,8 @@ const navServiceItems = [
   },
 ];
 
+const navTlmItems = ["FolkTLM"];
+
 const heroSlides = [
   {
     title: "Education with dignity and local leadership",
@@ -238,6 +240,24 @@ function isOurTeamRouteActive() {
 
   const currentPath = window.location.pathname.toLowerCase();
   return currentPath === "/our-team";
+}
+
+function isCareerRouteActive() {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  const currentPath = window.location.pathname.toLowerCase();
+  return currentPath === "/career";
+}
+
+function isFolkTlmRouteActive() {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  const currentPath = window.location.pathname.toLowerCase();
+  return currentPath === "/tlm/folktlm";
 }
 
 function ContactUsPage() {
@@ -927,17 +947,223 @@ function OurTeamPage() {
   );
 }
 
+function CareerPage() {
+  const openings = [
+    {
+      title: "Program Coordinator",
+      type: "Full Time",
+      location: "Patna, Bihar",
+      description:
+        "Lead field coordination, partner communication, and day-to-day delivery across education and livelihood projects.",
+    },
+    {
+      title: "Field Mobilizer",
+      type: "Field Role",
+      location: "Darbhanga, Bihar",
+      description:
+        "Mobilize community groups, support beneficiaries, and maintain program participation at village level.",
+    },
+    {
+      title: "Training Facilitator",
+      type: "Contract",
+      location: "Hybrid",
+      description:
+        "Deliver life-skill and digital literacy sessions with practical, hands-on learning methods.",
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
+        <div className="flex items-center justify-between px-4 py-4 sm:px-6 lg:px-10">
+          <a href="/" className="inline-flex items-center">
+            <img
+              src="/sita-logo.jpeg"
+              alt="SITA logo"
+              className="h-14 w-auto origin-left scale-x-125 rounded-lg sm:h-16"
+            />
+          </a>
+          <a
+            href="/"
+            className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+          >
+            Back To Home
+          </a>
+        </div>
+      </header>
+
+      <main className="px-4 py-8 sm:px-6 lg:px-10">
+        <section className="mx-auto max-w-6xl overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-br from-sky-50 via-white to-orange-50 p-7 shadow-xl shadow-slate-200/60 sm:p-10">
+          <p className="inline-flex rounded-full border border-sky-200 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-wide text-sky-700">
+            Career
+          </p>
+          <h1 className="mt-4 text-3xl text-slate-900 sm:text-4xl">
+            Build Impact With SITA
+          </h1>
+          <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base">
+            Join our team to strengthen education, livelihood, and community-led
+            development programs across Bihar.
+          </p>
+        </section>
+
+        <section className="mx-auto mt-7 grid max-w-6xl gap-5 lg:grid-cols-3">
+          {openings.map((opening) => (
+            <article
+              key={opening.title}
+              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-lg shadow-slate-200/60"
+            >
+              <div className="flex items-center justify-between gap-2">
+                <span className="rounded-full bg-slate-900 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-white">
+                  {opening.type}
+                </span>
+                <span className="rounded-full bg-sky-100 px-3 py-1 text-[11px] font-semibold text-sky-700">
+                  {opening.location}
+                </span>
+              </div>
+              <h2 className="mt-4 text-xl text-slate-900">{opening.title}</h2>
+              <p className="mt-3 text-sm leading-6 text-slate-600">
+                {opening.description}
+              </p>
+            </article>
+          ))}
+        </section>
+
+        <section className="mx-auto mt-7 max-w-6xl rounded-2xl border border-emerald-100 bg-white p-6 shadow-lg shadow-emerald-100/60 sm:p-7">
+          <h2 className="text-2xl text-slate-900">How To Apply</h2>
+          <p className="mt-3 text-sm leading-7 text-slate-600">
+            Send your resume and a short profile to{" "}
+            <a
+              href="mailto:careers@sita.org"
+              className="font-semibold text-sky-700 underline decoration-sky-300 underline-offset-2"
+            >
+              careers@sita.org
+            </a>{" "}
+            with the role title in the email subject.
+          </p>
+          <p className="mt-2 text-sm leading-7 text-slate-600">
+            You can also share your profile through our{" "}
+            <a
+              href="/contact-us"
+              className="font-semibold text-sky-700 underline decoration-sky-300 underline-offset-2"
+            >
+              Contact Us
+            </a>{" "}
+            page.
+          </p>
+        </section>
+      </main>
+    </div>
+  );
+}
+
+function FolkTlmPage() {
+  const subjectResources = [
+    {
+      subject: "Hindi",
+      videoUrl: "https://www.youtube.com/results?search_query=folk+tlm+hindi",
+      pdfUrl:
+        "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+    },
+    {
+      subject: "Math",
+      videoUrl: "https://www.youtube.com/results?search_query=folk+tlm+math",
+      pdfUrl:
+        "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+    },
+    {
+      subject: "EVS",
+      videoUrl: "https://www.youtube.com/results?search_query=folk+tlm+evs",
+      pdfUrl:
+        "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
+        <div className="flex items-center justify-between px-4 py-4 sm:px-6 lg:px-10">
+          <a href="/" className="inline-flex items-center">
+            <img
+              src="/sita-logo.jpeg"
+              alt="SITA logo"
+              className="h-14 w-auto origin-left scale-x-125 rounded-lg sm:h-16"
+            />
+          </a>
+          <a
+            href="/"
+            className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+          >
+            Back To Home
+          </a>
+        </div>
+      </header>
+
+      <main className="px-4 py-8 sm:px-6 lg:px-10">
+        <section className="mx-auto max-w-6xl rounded-[2rem] border border-sky-100 bg-gradient-to-br from-sky-50 via-white to-emerald-50 p-7 shadow-xl shadow-slate-200/60 sm:p-10">
+          <p className="inline-flex rounded-full border border-sky-200 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-wide text-sky-700">
+            TLM Resource
+          </p>
+          <h1 className="mt-4 text-3xl text-slate-900 sm:text-4xl">
+            TLM (Teacher Learning Materials)
+          </h1>
+          <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base">
+            FolkTLM ke liye subject-wise resources yahan milenge. Har subject ke
+            liye video link aur PDF link diya gaya hai.
+          </p>
+        </section>
+
+        <section className="mx-auto mt-7 grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {subjectResources.map((resource) => (
+            <article
+              key={resource.subject}
+              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-lg shadow-slate-200/60"
+            >
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                Subject
+              </p>
+              <h2 className="mt-2 text-2xl text-slate-900">{resource.subject}</h2>
+
+              <div className="mt-5 flex flex-col gap-2">
+                <a
+                  href={resource.videoUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center rounded-lg bg-sky-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-800"
+                >
+                  Video Link
+                </a>
+                <a
+                  href={resource.pdfUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+                >
+                  PDF Link
+                </a>
+              </div>
+            </article>
+          ))}
+        </section>
+      </main>
+    </div>
+  );
+}
+
 function App() {
   const isContactUsPage = isContactUsRouteActive();
   const isDonationPage = isDonationRouteActive();
   const isOurTeamPage = isOurTeamRouteActive();
+  const isCareerPage = isCareerRouteActive();
+  const isFolkTlmPage = isFolkTlmRouteActive();
 
   const [activeSlide, setActiveSlide] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [mobileTlmOpen, setMobileTlmOpen] = useState(false);
   const [desktopAboutOpen, setDesktopAboutOpen] = useState(false);
   const [desktopServicesOpen, setDesktopServicesOpen] = useState(false);
+  const [desktopTlmOpen, setDesktopTlmOpen] = useState(false);
   const [showNewsletterPopup, setShowNewsletterPopup] = useState(true);
   const [subscriberName, setSubscriberName] = useState("");
   const [subscriberEmail, setSubscriberEmail] = useState("");
@@ -972,7 +1198,13 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (isContactUsPage || isDonationPage || isOurTeamPage) {
+    if (
+      isContactUsPage ||
+      isDonationPage ||
+      isOurTeamPage ||
+      isCareerPage ||
+      isFolkTlmPage
+    ) {
       return undefined;
     }
 
@@ -981,10 +1213,23 @@ function App() {
     }, 5000);
 
     return () => window.clearInterval(intervalId);
-  }, [isContactUsPage, isDonationPage, isOurTeamPage]);
+  }, [
+    isContactUsPage,
+    isDonationPage,
+    isOurTeamPage,
+    isCareerPage,
+    isFolkTlmPage,
+  ]);
 
   useEffect(() => {
-    if (isContactUsPage || isDonationPage || isOurTeamPage || !showNewsletterPopup) {
+    if (
+      isContactUsPage ||
+      isDonationPage ||
+      isOurTeamPage ||
+      isCareerPage ||
+      isFolkTlmPage ||
+      !showNewsletterPopup
+    ) {
       return undefined;
     }
 
@@ -1002,7 +1247,14 @@ function App() {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleEscape);
     };
-  }, [isContactUsPage, isDonationPage, isOurTeamPage, showNewsletterPopup]);
+  }, [
+    isContactUsPage,
+    isDonationPage,
+    isOurTeamPage,
+    isCareerPage,
+    isFolkTlmPage,
+    showNewsletterPopup,
+  ]);
 
   const getServiceSubItemHref = (serviceLabel, subItemLabel) => {
     if (
@@ -1015,9 +1267,21 @@ function App() {
     return "#services";
   };
 
+  const getTlmItemHref = (itemLabel) => {
+    if (itemLabel === "FolkTLM") {
+      return "/tlm/folktlm";
+    }
+
+    return "#top";
+  };
+
   const getAboutItemHref = (itemLabel) => {
     if (itemLabel === "Our Team") {
       return "/our-team";
+    }
+
+    if (itemLabel === "Career") {
+      return "/career";
     }
 
     if (itemLabel === "Donate Us") {
@@ -1063,6 +1327,14 @@ function App() {
 
   if (isOurTeamPage) {
     return <OurTeamPage />;
+  }
+
+  if (isCareerPage) {
+    return <CareerPage />;
+  }
+
+  if (isFolkTlmPage) {
+    return <FolkTlmPage />;
   }
 
   if (isDonationPage) {
@@ -1309,6 +1581,42 @@ function App() {
               </div>
             </div>
 
+            <div
+              className="relative"
+              onMouseEnter={() => setDesktopTlmOpen(true)}
+              onMouseLeave={() => setDesktopTlmOpen(false)}
+            >
+              <button
+                type="button"
+                aria-haspopup="true"
+                aria-expanded={desktopTlmOpen}
+                className="inline-flex items-center gap-1 rounded-xl px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-sky-50 hover:text-sky-700"
+              >
+                TLM
+                <Arrow open={desktopTlmOpen} />
+              </button>
+              <div
+                className={`absolute left-0 top-full z-30 w-56 rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-xl transition-all duration-200 ${
+                  desktopTlmOpen
+                    ? "pointer-events-auto translate-y-0 opacity-100"
+                    : "pointer-events-none translate-y-2 opacity-0"
+                }`}
+              >
+                <ul className="space-y-1">
+                  {navTlmItems.map((item) => (
+                    <li key={item}>
+                      <a
+                        href={getTlmItemHref(item)}
+                        className="block rounded-lg px-3 py-2 text-sm text-slate-700 transition hover:bg-orange-50 hover:text-orange-700"
+                      >
+                        {item}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
             <a
               href="#services"
               className="rounded-xl px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-sky-50 hover:text-sky-700"
@@ -1412,6 +1720,30 @@ function App() {
                       </div>
                     ))}
                   </div>
+                ) : null}
+              </div>
+              <div className="rounded-lg border border-slate-200">
+                <button
+                  type="button"
+                  onClick={() => setMobileTlmOpen((current) => !current)}
+                  className="flex w-full items-center justify-between px-3 py-2 text-left text-sm font-semibold text-slate-700"
+                >
+                  TLM
+                  <Arrow open={mobileTlmOpen} />
+                </button>
+                {mobileTlmOpen ? (
+                  <ul className="space-y-1 border-t border-slate-100 px-3 py-2">
+                    {navTlmItems.map((item) => (
+                      <li key={item}>
+                        <a
+                          href={getTlmItemHref(item)}
+                          className="block rounded px-2 py-1 text-sm text-slate-600 hover:bg-sky-50 hover:text-sky-700"
+                        >
+                          {item}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
                 ) : null}
               </div>
               <a
@@ -1657,6 +1989,11 @@ function App() {
                 <li>
                   <a href="#services" className="transition hover:text-white">
                     Services
+                  </a>
+                </li>
+                <li>
+                  <a href="/career" className="transition hover:text-white">
+                    Career
                   </a>
                 </li>
               </ul>
