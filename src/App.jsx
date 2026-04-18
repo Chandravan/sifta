@@ -114,27 +114,22 @@ const aboutHighlights = [
   {
     heading: "Mission Statement",
     content:
-      "Connecting People, Creating Opportunity through practical, local, and inclusive action.",
+      "Connecting people and creating opportunity through practical, local, and inclusive action.",
   },
   {
-    heading: "Our Team",
+    heading: "Inclusive Development",
     content:
-      "Educators, consultants, mobilizers, and trainers committed to long-term social transformation.",
+      "We focus on education, nutrition, and life-skill opportunities for underserved and marginalized communities.",
   },
   {
-    heading: "Reports and Resources",
+    heading: "Collaborative Approach",
     content:
-      "Transparent documentation of what we do, what works, and where we are improving.",
+      "SITA works with communities, institutions, and partners to build resilient ecosystems for long-term social progress.",
   },
   {
-    heading: "Career",
+    heading: "Specialized Services",
     content:
-      "Join our on-ground and strategy teams to co-build stronger communities.",
-  },
-  {
-    heading: "Donate Us",
-    content:
-      "Support our community programs and help unlock opportunities for more families.",
+      "Consultancy, ECE/FLN learning materials, curriculum implementation, human resource support, and life-skills promotion.",
   },
 ];
 
@@ -249,6 +244,15 @@ function isFolkTlmRouteActive() {
 
   const currentPath = window.location.pathname.toLowerCase();
   return currentPath === "/tlm/folktlm";
+}
+
+function isAboutUsRouteActive() {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  const currentPath = window.location.pathname.toLowerCase();
+  return currentPath === "/about-us";
 }
 
 function ContactUsPage() {
@@ -1068,6 +1072,7 @@ function FolkTlmPage() {
         "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
     },
   ];
+  const [tlmViewMode, setTlmViewMode] = useState("card");
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -1103,37 +1108,208 @@ function FolkTlmPage() {
           </p>
         </section>
 
-        <section className="mx-auto mt-7 grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {subjectResources.map((resource) => (
-            <article
-              key={resource.subject}
-              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-lg shadow-slate-200/60"
-            >
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                Subject
-              </p>
-              <h2 className="mt-2 text-2xl text-slate-900">{resource.subject}</h2>
+        <section className="mx-auto mt-7 max-w-6xl">
+          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <h2 className="text-2xl text-slate-900">Subject Resources</h2>
+            <div className="inline-flex rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
+              <button
+                type="button"
+                onClick={() => setTlmViewMode("card")}
+                className={`rounded-lg px-3 py-1.5 text-sm font-semibold transition ${
+                  tlmViewMode === "card"
+                    ? "bg-sky-700 text-white"
+                    : "text-slate-600 hover:bg-slate-100"
+                }`}
+              >
+                Card View
+              </button>
+              <button
+                type="button"
+                onClick={() => setTlmViewMode("list")}
+                className={`rounded-lg px-3 py-1.5 text-sm font-semibold transition ${
+                  tlmViewMode === "list"
+                    ? "bg-sky-700 text-white"
+                    : "text-slate-600 hover:bg-slate-100"
+                }`}
+              >
+                List View
+              </button>
+            </div>
+          </div>
 
-              <div className="mt-5 flex flex-col gap-2">
-                <a
-                  href={resource.videoUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center rounded-lg bg-sky-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-800"
+          {tlmViewMode === "card" ? (
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {subjectResources.map((resource) => (
+                <article
+                  key={resource.subject}
+                  className="rounded-2xl border border-slate-200 bg-white p-5 shadow-lg shadow-slate-200/60"
                 >
-                  Video Link
-                </a>
-                <a
-                  href={resource.pdfUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
-                >
-                  PDF Link
-                </a>
-              </div>
-            </article>
-          ))}
+                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Subject
+                  </p>
+                  <h2 className="mt-2 text-2xl text-slate-900">{resource.subject}</h2>
+
+                  <div className="mt-5 flex flex-col gap-2">
+                    <a
+                      href={resource.videoUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center justify-center rounded-lg bg-sky-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-800"
+                    >
+                      Video Link
+                    </a>
+                    <a
+                      href={resource.pdfUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+                    >
+                      PDF Link
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg shadow-slate-200/60">
+              <ul className="divide-y divide-slate-200">
+                {subjectResources.map((resource) => (
+                  <li
+                    key={resource.subject}
+                    className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between"
+                  >
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        Subject
+                      </p>
+                      <p className="mt-1 text-lg font-semibold text-slate-900">
+                        {resource.subject}
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-2 sm:flex-row">
+                      <a
+                        href={resource.videoUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center justify-center rounded-lg bg-sky-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-800"
+                      >
+                        Video Link
+                      </a>
+                      <a
+                        href={resource.pdfUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+                      >
+                        PDF Link
+                      </a>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </section>
+      </main>
+    </div>
+  );
+}
+
+function AboutUsPage() {
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
+        <div className="flex items-center justify-between px-4 py-4 sm:px-6 lg:px-10">
+          <a href="/" className="inline-flex items-center">
+            <img
+              src="/sita-logo.jpeg"
+              alt="SITA logo"
+              className="h-14 w-auto origin-left scale-x-125 rounded-lg sm:h-16"
+            />
+          </a>
+          <a
+            href="/"
+            className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+          >
+            Back To Home
+          </a>
+        </div>
+      </header>
+
+      <main className="px-4 py-8 sm:px-6 lg:px-10">
+        <section
+          id="mission"
+          className="mx-auto max-w-6xl rounded-[2rem] border border-slate-200 bg-white p-7 shadow-xl shadow-slate-200/60 sm:p-10"
+        >
+          <p className="inline-flex rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-sky-700">
+            About SITA
+          </p>
+          <h1 className="mt-4 text-3xl text-slate-900 sm:text-4xl">About Us</h1>
+          <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-base">
+            Social Integration for Together Action (SITA) is a collective of
+            experienced and committed professionals dedicated to advancing
+            inclusive and sustainable community development. Our mission is to
+            uplift education, improve nutrition, and expand life skill
+            opportunities, particularly for underserved and marginalized groups.
+          </p>
+          <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base">
+            At SITA, we believe that meaningful change happens when communities
+            come together. By fostering collaboration and participation, we
+            strive to build stronger, more resilient communities that can achieve
+            long-term social progress.
+          </p>
+        </section>
+
+        <section className="mx-auto mt-7 max-w-6xl rounded-[2rem] border border-slate-200 bg-white p-7 shadow-xl shadow-slate-200/60 sm:p-10">
+          <h2 className="text-2xl text-slate-900 sm:text-3xl">Our Services</h2>
+          <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base">
+            We offer a wide range of specialized services designed to support
+            organizations, institutions, and development initiatives:
+          </p>
+          <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-600 sm:text-base">
+            <li>
+              Consultancy Services: Including proposal development, capacity
+              building, program research and evaluation, and impact analysis.
+            </li>
+            <li>
+              Education Solutions: Development of teaching-learning materials for
+              Early Childhood Education (ECE) and Foundational Literacy and
+              Numeracy (FLN).
+            </li>
+            <li>
+              Curriculum Development and Program Implementation: Designing and
+              executing effective, context-driven educational and social programs.
+            </li>
+            <li>
+              Human Resource Support: Providing skilled professionals for the
+              development sector.
+            </li>
+            <li>
+              Life Skills Promotion: Empowering adolescent girls and women with
+              essential life skills to enhance their confidence, independence,
+              and resilience.
+            </li>
+          </ul>
+          <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-base">
+            Through our integrated approach, SITA works to create opportunities
+            that enable individuals and communities to thrive. We are committed
+            to driving positive change by combining expertise, innovation, and a
+            deep understanding of grassroots realities.
+          </p>
+        </section>
+
+        <section
+          id="reports"
+          className="mx-auto mt-7 max-w-6xl rounded-[2rem] border border-emerald-100 bg-gradient-to-br from-emerald-50 via-white to-orange-50 p-7 shadow-xl shadow-emerald-100/60 sm:p-10"
+        >
+          <h2 className="text-2xl text-slate-900 sm:text-3xl">
+            Reports and Resources
+          </h2>
+          <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base">
+            Documentation, case studies, and learning resources from our field
+            programs are organized here to support transparent and measurable
+            development outcomes.
+          </p>
         </section>
       </main>
     </div>
@@ -1146,6 +1322,7 @@ function App() {
   const isOurTeamPage = isOurTeamRouteActive();
   const isCareerPage = isCareerRouteActive();
   const isFolkTlmPage = isFolkTlmRouteActive();
+  const isAboutUsPage = isAboutUsRouteActive();
 
   const [activeSlide, setActiveSlide] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -1194,7 +1371,8 @@ function App() {
       isDonationPage ||
       isOurTeamPage ||
       isCareerPage ||
-      isFolkTlmPage
+      isFolkTlmPage ||
+      isAboutUsPage
     ) {
       return undefined;
     }
@@ -1210,6 +1388,7 @@ function App() {
     isOurTeamPage,
     isCareerPage,
     isFolkTlmPage,
+    isAboutUsPage,
   ]);
 
   useEffect(() => {
@@ -1219,6 +1398,7 @@ function App() {
       isOurTeamPage ||
       isCareerPage ||
       isFolkTlmPage ||
+      isAboutUsPage ||
       !showNewsletterPopup
     ) {
       return undefined;
@@ -1244,6 +1424,7 @@ function App() {
     isOurTeamPage,
     isCareerPage,
     isFolkTlmPage,
+    isAboutUsPage,
     showNewsletterPopup,
   ]);
 
@@ -1267,8 +1448,16 @@ function App() {
   };
 
   const getAboutItemHref = (itemLabel) => {
+    if (itemLabel === "Mission Statement") {
+      return "/about-us#mission";
+    }
+
     if (itemLabel === "Our Team") {
       return "/our-team";
+    }
+
+    if (itemLabel === "Reports and Resources") {
+      return "/about-us#reports";
     }
 
     if (itemLabel === "Career") {
@@ -1279,7 +1468,7 @@ function App() {
       return "/donation";
     }
 
-    return "#about";
+    return "/about-us";
   };
 
   const handleNewsletterSubmit = (event) => {
@@ -1326,6 +1515,10 @@ function App() {
 
   if (isFolkTlmPage) {
     return <FolkTlmPage />;
+  }
+
+  if (isAboutUsPage) {
+    return <AboutUsPage />;
   }
 
   if (isDonationPage) {
@@ -1907,9 +2100,15 @@ function App() {
           >
             <h2 className="text-2xl text-slate-900 sm:text-3xl">About Us</h2>
             <p className="mt-2 text-sm leading-7 text-slate-600">
-              Community-driven design, transparent execution, and measurable
-              outcomes.
+              Quick highlights about SITA. For full details, visit the dedicated
+              About Us page.
             </p>
+            <a
+              href="/about-us"
+              className="mt-4 inline-flex rounded-xl bg-sky-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-800"
+            >
+              Read Full About Us
+            </a>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {aboutHighlights.map((item) => (
                 <article
@@ -1973,7 +2172,7 @@ function App() {
                   </a>
                 </li>
                 <li>
-                  <a href="#about" className="transition hover:text-white">
+                  <a href="/about-us" className="transition hover:text-white">
                     About Us
                   </a>
                 </li>
