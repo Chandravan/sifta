@@ -104,32 +104,25 @@ const serviceShowcase = [
 ];
 
 const lifeSkillTracks = [
-  "Stitching",
-  "Beauty Parlor",
-  "Digital Literacy",
-  "Mithila Painting",
-];
-
-const aboutHighlights = [
   {
-    heading: "Mission Statement",
-    content:
-      "Connecting people and creating opportunity through practical, local, and inclusive action.",
+    label: "Stitching",
+    image:
+      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=300&q=80",
   },
   {
-    heading: "Inclusive Development",
-    content:
-      "We focus on education, nutrition, and life-skill opportunities for underserved and marginalized communities.",
+    label: "Beauty Parlor",
+    image:
+      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=300&q=80",
   },
   {
-    heading: "Collaborative Approach",
-    content:
-      "SITA works with communities, institutions, and partners to build resilient ecosystems for long-term social progress.",
+    label: "Digital Literacy",
+    image:
+      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=300&q=80",
   },
   {
-    heading: "Specialized Services",
-    content:
-      "Consultancy, ECE/FLN learning materials, curriculum implementation, human resource support, and life-skills promotion.",
+    label: "Mithila Painting",
+    image:
+      "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=300&q=80",
   },
 ];
 
@@ -1324,19 +1317,6 @@ function AboutUsPage() {
           </p>
         </section>
 
-        <section
-          id="reports"
-          className="mx-auto mt-7 max-w-6xl rounded-[2rem] border border-emerald-100 bg-gradient-to-br from-emerald-50 via-white to-orange-50 p-7 shadow-xl shadow-emerald-100/60 sm:p-10"
-        >
-          <h2 className="text-2xl text-slate-900 sm:text-3xl">
-            Reports and Resources
-          </h2>
-          <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base">
-            Documentation, case studies, and learning resources from our field
-            programs are organized here to support transparent and measurable
-            development outcomes.
-          </p>
-        </section>
       </main>
     </div>
   );
@@ -1476,7 +1456,7 @@ function App() {
     }
 
     if (itemLabel === "Reports and Resources") {
-      return "/about-us#reports";
+      return "/about-us";
     }
 
     if (itemLabel === "Career") {
@@ -1594,65 +1574,160 @@ function App() {
               onSubmit={handleNewsletterSubmit}
               className="mx-auto mt-6 w-full max-w-md space-y-3"
             >
-              <input
-                type="text"
-                name="name"
-                autoComplete="name"
-                required
-                value={subscriberName}
-                onChange={(event) => {
-                  setSubscriberName(event.target.value);
-                  if (popupMessage) {
-                    setPopupMessage("");
-                  }
-                }}
-                placeholder="Enter your name"
-                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
-              />
-              <input
-                type="email"
-                name="email"
-                autoComplete="email"
-                required
-                value={subscriberEmail}
-                onChange={(event) => {
-                  setSubscriberEmail(event.target.value);
-                  if (popupMessage) {
-                    setPopupMessage("");
-                  }
-                }}
-                placeholder="Enter your email address"
-                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
-              />
-              <input
-                type="text"
-                name="organization"
-                autoComplete="organization"
-                value={subscriberOrganization}
-                onChange={(event) => {
-                  setSubscriberOrganization(event.target.value);
-                  if (popupMessage) {
-                    setPopupMessage("");
-                  }
-                }}
-                placeholder="Organization (optional)"
-                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
-              />
-              <input
-                type="tel"
-                name="contact"
-                autoComplete="tel"
-                required
-                value={subscriberContact}
-                onChange={(event) => {
-                  setSubscriberContact(event.target.value);
-                  if (popupMessage) {
-                    setPopupMessage("");
-                  }
-                }}
-                placeholder="Enter contact number"
-                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
-              />
+              <div className="relative">
+                <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="h-5 w-5"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M4 20a8 8 0 0 1 16 0"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+                <input
+                  type="text"
+                  name="name"
+                  autoComplete="name"
+                  required
+                  value={subscriberName}
+                  onChange={(event) => {
+                    setSubscriberName(event.target.value);
+                    if (popupMessage) {
+                      setPopupMessage("");
+                    }
+                  }}
+                  placeholder="Enter your name"
+                  className="w-full rounded-xl border border-slate-300 bg-white py-3 pl-11 pr-4 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+                />
+              </div>
+              <div className="relative">
+                <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="h-5 w-5"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M3 7.5 12 13l9-5.5"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <rect
+                      x="3"
+                      y="5"
+                      width="18"
+                      height="14"
+                      rx="2.5"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                    />
+                  </svg>
+                </span>
+                <input
+                  type="email"
+                  name="email"
+                  autoComplete="email"
+                  required
+                  value={subscriberEmail}
+                  onChange={(event) => {
+                    setSubscriberEmail(event.target.value);
+                    if (popupMessage) {
+                      setPopupMessage("");
+                    }
+                  }}
+                  placeholder="Enter your email address"
+                  className="w-full rounded-xl border border-slate-300 bg-white py-3 pl-11 pr-4 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+                />
+              </div>
+              <div className="relative">
+                <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="h-5 w-5"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M4 20V8l8-4 8 4v12"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M9 20v-5h6v5"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+                <input
+                  type="text"
+                  name="organization"
+                  autoComplete="organization"
+                  value={subscriberOrganization}
+                  onChange={(event) => {
+                    setSubscriberOrganization(event.target.value);
+                    if (popupMessage) {
+                      setPopupMessage("");
+                    }
+                  }}
+                  placeholder="Organization (optional)"
+                  className="w-full rounded-xl border border-slate-300 bg-white py-3 pl-11 pr-4 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+                />
+              </div>
+              <div className="relative">
+                <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="h-5 w-5"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M5 4h3l2 5-2 1.8a14 14 0 0 0 5.2 5.2L15 14l5 2v3a2 2 0 0 1-2.3 2A17 17 0 0 1 3 6.3 2 2 0 0 1 5 4Z"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+                <input
+                  type="tel"
+                  name="contact"
+                  autoComplete="tel"
+                  required
+                  value={subscriberContact}
+                  onChange={(event) => {
+                    setSubscriberContact(event.target.value);
+                    if (popupMessage) {
+                      setPopupMessage("");
+                    }
+                  }}
+                  placeholder="Enter contact number"
+                  className="w-full rounded-xl border border-slate-300 bg-white py-3 pl-11 pr-4 text-sm text-slate-700 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+                />
+              </div>
               <button
                 type="submit"
                 className="w-full rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-black"
@@ -2128,28 +2203,52 @@ function App() {
           >
             <h2 className="text-2xl text-slate-900 sm:text-3xl">About Us</h2>
             <p className="mt-2 text-sm leading-7 text-slate-600">
-              Quick highlights about SITA. For full details, visit the dedicated
-              About Us page.
+              Social Integration for Together Action (SITA) is a collective of
+              experienced and committed professionals dedicated to advancing
+              inclusive and sustainable community development. Our mission is to
+              uplift education, improve nutrition, and expand life skill
+              opportunities, particularly for underserved and marginalized groups.
             </p>
-            <a
-              href="/about-us"
-              className="mt-4 inline-flex rounded-xl bg-sky-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-800"
-            >
-              Read Full About Us
-            </a>
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              {aboutHighlights.map((item) => (
-                <article
-                  key={item.heading}
-                  className="rounded-xl border border-sky-100 bg-gradient-to-b from-sky-50 to-white p-4"
-                >
-                  <h3 className="text-lg text-slate-900">{item.heading}</h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">
-                    {item.content}
-                  </p>
-                </article>
-              ))}
-            </div>
+            <p className="mt-3 text-sm leading-7 text-slate-600">
+              At SITA, we believe that meaningful change happens when communities
+              come together. By fostering collaboration and participation, we
+              strive to build stronger, more resilient communities that can achieve
+              long-term social progress.
+            </p>
+            <p className="mt-4 text-sm leading-7 text-slate-600">
+              We offer a wide range of specialized services designed to support
+              organizations, institutions, and development initiatives:
+            </p>
+            <ul className="mt-3 list-disc space-y-1 pl-5 text-sm leading-7 text-slate-700">
+              <li>
+                Consultancy Services: Including proposal development, capacity
+                building, program research and evaluation, and impact analysis.
+              </li>
+              <li>
+                Education Solutions: Development of teaching-learning materials for
+                Early Childhood Education (ECE) and Foundational Literacy and
+                Numeracy (FLN).
+              </li>
+              <li>
+                Curriculum Development and Program Implementation: Designing and
+                executing effective, context-driven educational and social programs.
+              </li>
+              <li>
+                Human Resource Support: Providing skilled professionals for the
+                development sector.
+              </li>
+              <li>
+                Life Skills Promotion: Empowering adolescent girls and women with
+                essential life skills to enhance their confidence, independence,
+                and resilience.
+              </li>
+            </ul>
+            <p className="mt-4 text-sm leading-7 text-slate-600">
+              Through our integrated approach, SITA works to create opportunities
+              that enable individuals and communities to thrive. We are committed
+              to driving positive change by combining expertise, innovation, and a
+              deep understanding of grassroots realities.
+            </p>
           </div>
           <aside className="rounded-3xl border border-emerald-100 bg-gradient-to-br from-emerald-50 via-white to-orange-50 p-7 shadow-xl shadow-emerald-100/60">
             <h2 className="text-2xl text-slate-900">Life Skill Education</h2>
@@ -2157,25 +2256,25 @@ function App() {
               Our life-skill tracks are designed to build confidence,
               employability, and entrepreneurship.
             </p>
-            <ul className="mt-5 space-y-3">
+            <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
               {lifeSkillTracks.map((track) => (
-                <li
-                  key={track}
-                  className="flex items-center justify-between rounded-xl border border-white/80 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm"
-                >
-                  <span>{track}</span>
-                  <span className="rounded-full bg-sky-100 px-2 py-0.5 text-xs text-sky-700">
-                    Track
-                  </span>
+                <li key={track.label}>
+                  <a
+                    href="/contact-us"
+                    className="block rounded-2xl border border-emerald-100 bg-white p-5 text-center shadow-md shadow-emerald-100/60 transition hover:-translate-y-0.5 hover:shadow-lg"
+                  >
+                    <img
+                      src={track.image}
+                      alt={track.label}
+                      className="mx-auto h-20 w-20 rounded-full border-2 border-white object-cover shadow-md"
+                    />
+                    <p className="mt-3 text-base font-semibold text-slate-800">
+                      {track.label}
+                    </p>
+                  </a>
                 </li>
               ))}
             </ul>
-            <a
-              href="#contact"
-              className="mt-6 inline-flex rounded-xl bg-emerald-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-800"
-            >
-              Enroll / Partner
-            </a>
           </aside>
         </section>
       </main>
