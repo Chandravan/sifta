@@ -394,6 +394,15 @@ function DonationPage() {
     setShowPaymentPopup(true);
   };
 
+  const handlePaymentDone = () => {
+    setPaymentStatus("Payment marked as done. Thank you for your contribution.");
+    setShowPaymentPopup(false);
+  };
+
+  const handlePaymentCancel = () => {
+    setShowPaymentPopup(false);
+  };
+
   useEffect(() => {
     if (!showPaymentPopup) {
       return undefined;
@@ -480,6 +489,23 @@ function DonationPage() {
                   Branch: <span className="font-semibold">Patna Main Branch</span>
                 </p>
               </div>
+            </div>
+
+            <div className="mt-5 grid gap-2 sm:grid-cols-2">
+              <button
+                type="button"
+                onClick={handlePaymentCancel}
+                className="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handlePaymentDone}
+                className="inline-flex items-center justify-center rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-800"
+              >
+                Done
+              </button>
             </div>
 
             {paymentStatus ? (
@@ -1429,14 +1455,7 @@ function App() {
   ]);
 
   const getServiceSubItemHref = (serviceLabel, subItemLabel) => {
-    if (
-      serviceLabel === "Consultant" &&
-      subItemLabel === "Proposal Development"
-    ) {
-      return "/contact-us";
-    }
-
-    return "#services";
+    return "/contact-us";
   };
 
   const getTlmItemHref = (itemLabel) => {
@@ -1732,7 +1751,7 @@ function App() {
                       className="group/item rounded-xl border border-slate-100 bg-slate-50/70 p-3"
                     >
                       <a
-                        href="#services"
+                        href="/contact-us"
                         className="flex items-center justify-between text-sm font-semibold text-slate-800 transition hover:text-sky-700"
                       >
                         <span>{item.label}</span>
@@ -1879,7 +1898,7 @@ function App() {
                         className="rounded-md bg-slate-50 p-2"
                       >
                         <a
-                          href="#services"
+                          href="/contact-us"
                           className="text-sm font-semibold text-slate-800 hover:text-sky-700"
                         >
                           {item.label}
@@ -2062,9 +2081,10 @@ function App() {
           </div>
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {serviceShowcase.map((service) => (
-              <article
+              <a
                 key={service.title}
-                className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-50"
+                href="/contact-us"
+                className="group relative block overflow-hidden rounded-2xl border border-slate-200 bg-slate-50"
               >
                 <img
                   src={service.image}
@@ -2088,12 +2108,12 @@ function App() {
                     ))}
                   </div>
                 </div>
-              </article>
+              </a>
             ))}
           </div>
         </section>
 
-        <section className="fade-up grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+        <section className="fade-up space-y-5">
           <div
             id="about"
             className="rounded-3xl border border-slate-200/70 bg-white/90 p-7 shadow-xl shadow-slate-200/60"
@@ -2220,13 +2240,13 @@ function App() {
             </div>
           </div>
 
-          <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-4 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between">
-            <p>(c) 2026 SITA. All rights reserved.</p>
-            <p className="text-xs font-medium text-slate-300">
+          <div className="mt-6 grid gap-3 border-t border-white/10 pt-4 text-xs text-slate-400 sm:grid-cols-[1fr_auto_1fr] sm:items-center">
+            <p className="text-xs font-medium text-slate-300 sm:justify-self-start">
               Visitors:{" "}
               {visitorCount !== null ? visitorCount.toLocaleString("en-IN") : "--"}
             </p>
-            <div className="flex flex-wrap items-center gap-2">
+            <p className="sm:justify-self-center">(c) 2026 SITA. All rights reserved.</p>
+            <div className="flex flex-wrap items-center gap-2 sm:justify-self-end">
               <p className="text-xs font-medium text-slate-300">Follow us:</p>
               <a
                 href="https://www.facebook.com/"
