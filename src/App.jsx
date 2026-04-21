@@ -1837,11 +1837,19 @@ function App() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen((current) => !current)}
-            className="inline-flex items-center rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm lg:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 shadow-sm lg:hidden"
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-nav"
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           >
-            Menu
+            <span className="sr-only">
+              {mobileMenuOpen ? "Close menu" : "Open menu"}
+            </span>
+            <span className="flex flex-col gap-1.5">
+              <span className="h-0.5 w-5 rounded-full bg-slate-700" />
+              <span className="h-0.5 w-5 rounded-full bg-slate-700" />
+              <span className="h-0.5 w-5 rounded-full bg-slate-700" />
+            </span>
           </button>
         </div>
 
